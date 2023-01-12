@@ -71,7 +71,7 @@ export class Parser {
 
     switch (token.tokenType) {
       case TokenType.Identifier:
-        return new Identifier(this.shiftTokens().symbol);
+        return new Identifier(this.shiftTokens().value);
       case TokenType.Number:
         return new NumericLiteral(parseFloat(this.shiftTokens().value));
 

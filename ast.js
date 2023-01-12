@@ -44,7 +44,7 @@ export class Identifier extends Stmt {
   constructor(symbol) {
     super();
     this.kind = NodeType.Identifier;
-    this.symbol = String(operator); // string;
+    this.symbol = String(symbol); // string;
   }
 }
 
