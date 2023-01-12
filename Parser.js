@@ -60,7 +60,23 @@ export class Parser {
    * @returns { Expr }
    */
   parseExp() {
-    return this.parsePrimaryExpr();
+    return this.parseAdditiveExpression();
+  }
+
+  /**
+   * @returns { Expr }
+   */
+  parseAdditiveExpression() {
+    // 10 + 5 - 5 -> (10 + 5) - 5
+    let left = this.parsePrimaryExpr();
+
+    while (["+", "-"].includes(this.currentToken().value)) {
+      const operator = this.shiftTokens().value;
+      const right = this.parsePrimaryExpr();
+      left = new BinaryExpr(operator, left, right);
+    }
+
+    return left;
   }
 
   /**
