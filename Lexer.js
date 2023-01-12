@@ -4,15 +4,30 @@
 
 /* The lexer is a function that f(string): token[] */
 
-const TokeType = {
+const TokenType = {
   Number: "Number",
   Identifier: "Identifier",
-  Equals: "Equals",
+  AssignOperator: "AssignOperator",
   OpenParen: "OpenParen",
   CloseParen: "CloseParen",
   BinaryOperator: "BinaryOperator",
   Let: "Let",
 };
+
+const KEYWORDS = {
+  let: TokenType.Let,
+};
+
+class AuxiliarAnalizer {
+  static isAlfa(char) {
+    const chatCode = char.charCodeAt(0);
+    return chatCode >= "A".charCodeAt(0) && chatCode <= "z".charCodeAt(0);
+  }
+  static isInt(char) {
+    const chatCode = char.charCodeAt(0);
+    return chatCode >= "0".charCodeAt(0) && chatCode <= "9".charCodeAt(0);
+  }
+}
 
 class Token {
   constructor(value, tokenType) {
@@ -31,29 +46,76 @@ class Lexer {
     this.chars = [];
   }
 
-  current() {
-    return this.chars[0];
+  currentChar() {
+    return this.chars[0] ?? "";
   }
 
   tokenize(sourceCode) {
     this.chars = sourceCode.split("");
 
     while (this.chars.length > 0) {
-      const char = this.current();
-
-      if (char === "(") {
-        this.tokens.push(Token.new(this.chars.shift(), TokeType.OpenParen));
+      if (
+        this.currentChar() === " " ||
+        this.currentChar() === "\n" ||
+        this.currentChar() === "\t"
+      ) {
+        this.chars.shift();
+        continue;
       }
+
+      if (this.currentChar() === "(") {
+        this.tokens.push(Token.new(this.chars.shift(), TokenType.OpenParen));
+        continue;
+      }
+      if (this.currentChar() === ")") {
+        this.tokens.push(Token.new(this.chars.shift(), TokenType.CloseParen));
+        continue;
+      }
+      if (["+", "-", "/", "*"].includes(this.currentChar())) {
+        this.tokens.push(
+          Token.new(this.chars.shift(), TokenType.BinaryOperator)
+        );
+        continue;
+      }
+      if (this.currentChar() === "=") {
+        this.tokens.push(
+          Token.new(this.chars.shift(), TokenType.AssignOperator)
+        );
+        continue;
+      }
+      if (AuxiliarAnalizer.isInt(this.currentChar())) {
+        let number = "";
+        while (
+          this.currentChar().length > 0 &&
+          AuxiliarAnalizer.isInt(this.currentChar())
+        ) {
+          number += this.chars.shift();
+        }
+        this.tokens.push(Token.new(number, TokenType.Number));
+        continue;
+      }
+      if (AuxiliarAnalizer.isAlfa(this.currentChar())) {
+        let word = "";
+        while (
+          this.currentChar().length > 0 &&
+          AuxiliarAnalizer.isAlfa(this.currentChar())
+        ) {
+          word += this.currentChar();
+          this.chars.shift();
+        }
+
+        //check for reserved keyword
+        if (!!KEYWORDS[word]) {
+          this.tokens.push(Token.new(word, KEYWORDS[word]));
+        } else {
+          this.tokens.push(Token.new(word, TokenType.Identifier));
+        }
+      }
+      continue;
     }
 
     return this.tokens;
   }
 }
 
-export default {};
-
-let lexer = new Lexer();
-
-let tokens = lexer.tokenize("(");
-
-console.log(tokens);
+module.exports = Lexer;
