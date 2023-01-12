@@ -4,7 +4,7 @@ let lexer = new Lexer();
 
 let tokens = lexer.tokenize("let asv = (123 + 456)");
 
-if (tokens.length !== 8) {
+if (tokens.length !== 9) {
   console.error("Quantidade errada.");
   process.exit(1);
 }

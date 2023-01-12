@@ -12,6 +12,7 @@ const TokenType = {
   CloseParen: "CloseParen",
   BinaryOperator: "BinaryOperator",
   Let: "Let",
+  EOF: "EOF",
 };
 
 const KEYWORDS = {
@@ -116,6 +117,8 @@ class Lexer {
       console.error(`Unrecognized token '${this.currentChar()}'`);
       process.exit(10);
     }
+
+    this.tokens.push(Token.new("EOF", TokenType.EOF));
 
     return this.tokens;
   }
