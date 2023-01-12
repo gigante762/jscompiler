@@ -17,6 +17,9 @@ export class Program extends Stmt {
   constructor() {
     super();
     this.kind = NodeType.Program;
+    /**
+     * @type {Stmt[]}
+     */
     this.body = []; // Array of Stmt
   }
 }
