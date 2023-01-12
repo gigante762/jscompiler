@@ -9,6 +9,7 @@ if (tokens.length !== 8) {
   process.exit(1);
 }
 
+console.log(tokens);
 //enhance this test
 
 process.exit(0);
