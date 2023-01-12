@@ -4,7 +4,7 @@
 
 /* The lexer is a function that f(string): token[] */
 
-const TokenType = {
+export const TokenType = {
   Number: "Number",
   Identifier: "Identifier",
   AssignOperator: "AssignOperator",
@@ -30,7 +30,7 @@ class AuxiliarAnalizer {
   }
 }
 
-class Token {
+export class Token {
   constructor(value, tokenType) {
     this.value = value;
     this.tokenType = tokenType;
@@ -41,7 +41,7 @@ class Token {
   }
 }
 
-class Lexer {
+export class Lexer {
   constructor() {
     this.tokens = [];
     this.chars = [];
@@ -123,5 +123,3 @@ class Lexer {
     return this.tokens;
   }
 }
-
-module.exports = Lexer;

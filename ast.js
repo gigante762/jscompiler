@@ -1,42 +1,48 @@
-const NodeType = {
+export const NodeType = {
   Program: "Program",
   NumericLiteral: "NumericLiteral",
   Identifier: "Identifier",
   BinaryExpr: "BinaryExpr",
 };
 
-class Stmt {
+NodeType.Program;
+
+export class Stmt {
   constructor(NodeType) {
     this.kind = NodeType;
   }
 }
 
-class Program extends Stmt {
-  constructor(NodeType) {
-    super(NodeType);
+export class Program extends Stmt {
+  constructor() {
+    super();
+    this.kind = NodeType.Program;
     this.body = []; // Array of Stmt
   }
 }
 
-class BinaryExpr extends Stmt {
-  constructor(NodeType, operator, left, right) {
-    super(NodeType);
+export class BinaryExpr extends Stmt {
+  constructor(operator, left, right) {
+    super();
+    this.kind = NodeType.BinaryExpr;
     this.left = left; // Stmt
     this.right = right; // Stmt
     this.operator = String(operator); // string;
   }
 }
 
-class Identifier extends Stmt {
-  constructor(NodeType, symbol) {
-    super(NodeType);
+export class Identifier extends Stmt {
+  constructor(symbol) {
+    super();
+    this.kind = NodeType.Identifier;
     this.symbol = String(operator); // string;
   }
 }
 
-class NumericLiteral extends Stmt {
-  constructor(NodeType, value) {
-    super(NodeType);
+export class NumericLiteral extends Stmt {
+  constructor(value) {
+    super();
+    this.kind = NodeType.NumericLiteral;
     this.value = Number(value); // number;
   }
 }

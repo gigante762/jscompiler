@@ -1,4 +1,4 @@
-const Lexer = require("../Lexer");
+import { Lexer } from "../Lexer.js";
 
 let lexer = new Lexer();
 
