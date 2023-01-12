@@ -13,6 +13,12 @@ export class Stmt {
   }
 }
 
+export class Expr extends Stmt {
+  constructor(NodeType) {
+    super(NodeType);
+  }
+}
+
 export class Program extends Stmt {
   constructor() {
     super();

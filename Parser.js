@@ -5,6 +5,7 @@ import {
   NumericLiteral,
   Program,
   Stmt,
+  Expr,
 } from "./ast.js";
 
 import { Lexer, Token, TokenType } from "./Lexer.js";
@@ -17,8 +18,16 @@ export class Parser {
     this.tokens = [];
   }
 
+  currentToken() {
+    return this.tokens[0];
+  }
+
+  shiftTokens() {
+    return this.tokens.shift();
+  }
+
   isTokenEOF() {
-    return this.tokens[0].tokenType === TokenType.EOF;
+    return this.currentToken().tokenType === TokenType.EOF;
   }
 
   /**
@@ -42,5 +51,36 @@ export class Parser {
   /**
    * @returns { Stmt }
    */
-  parseStmt() {}
+  parseStmt() {
+    //skip to parseExp
+    return this.parseExp();
+  }
+
+  /**
+   * @returns { Expr }
+   */
+  parseExp() {
+    return this.parsePrimaryExpr();
+  }
+
+  /**
+   * @returns { Expr }
+   */
+  parsePrimaryExpr() {
+    const token = this.currentToken();
+
+    switch (token.tokenType) {
+      case TokenType.Identifier:
+        return new Identifier(this.shiftTokens().symbol);
+      case TokenType.Number:
+        return new NumericLiteral(parseFloat(this.shiftTokens().value));
+
+      default:
+        console.error(
+          "Unexpected token found during the parsing.",
+          this.currentToken()
+        );
+        return process.exit(20);
+    }
+  }
 }
