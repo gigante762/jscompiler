@@ -110,8 +110,11 @@ class Lexer {
         } else {
           this.tokens.push(Token.new(word, TokenType.Identifier));
         }
+        continue;
       }
-      continue;
+
+      console.error(`Unrecognized token '${this.currentChar()}'`);
+      process.exit(10);
     }
 
     return this.tokens;
