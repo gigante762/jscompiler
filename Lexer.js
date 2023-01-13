@@ -72,7 +72,7 @@ export class Lexer {
         this.tokens.push(Token.new(this.chars.shift(), TokenType.CloseParen));
         continue;
       }
-      if (["+", "-", "/", "*"].includes(this.currentChar())) {
+      if (["+", "-", "/", "*", "%"].includes(this.currentChar())) {
         this.tokens.push(
           Token.new(this.chars.shift(), TokenType.BinaryOperator)
         );
